@@ -73,18 +73,18 @@
 
 /*** Section 1 Wanhao Printer ***/
 
-//#define D12_230
+#define D12_230
 //#define D12_300
 //#define D12_500
 
 /*** Section 2 Mono or Dual ***/
 
-//#define MONO
+#define MONO
 //#define DUAL
 
 /*** Section 3 Extruder Type ***/
 
-//#define TITAN       // Stock Extruder
+#define TITAN       // Stock Extruder
 //#define BMG         // Choose this if you are using BMG/BMG Wind
 //#define HEMERA      // Choose this if you are using HEMERA
 //#define MATRIX      // Choose this if you are using MATRIX
@@ -92,7 +92,7 @@
 /*** Section 4 Drivers Type ***/
 
   /*** XY Drivers ***/
-//#define TMC_2209_STA      // Stock Drivers
+#define TMC_2209_STA      // Stock Drivers
 //#define TMC_2208_STA      // Standalone Mode
 //#define TMC_2100
 //#define A_4988
@@ -103,14 +103,14 @@
   /*** Z Driver ***/
 //#define A_4988_2          // Stock Drivers / Standalone
 //#define TMC_2100_2
-//#define TMC_2209_STA_2    // Stock Drivers / Standalone
+#define TMC_2209_STA_2    // Stock Drivers / Standalone
 //#define TMC_2208_STA_2    // Standalone Mode
 //#define LV_8729_2
 //#define TMC_2208_2        // UART Mode
 //#define TMC_2209_2        // UART Mode
 
   /*** E0 E1 Drivers ***/
-//#define A_4988_3          // Stock Drivers / Standalone
+#define A_4988_3          // Stock Drivers / Standalone
 //#define TMC_2100_3
 //#define TMC_2209_STA_3    // Stock Drivers / Standalone
 //#define TMC_2208_STA_3    // Standalone Mode
@@ -118,14 +118,20 @@
 //#define TMC_2208_3        // UART Mode
 //#define TMC_2209_3        // UART Mode
 
+#define E3DV6 // uncomment if you have an E3D V6 hotend
+
 /*** Section 5 Bed Leveling ***/
 
-//#define BLTOUCH      //uncomment if you use a BLTouch
+#define BLTOUCH      //uncomment if you use a BLTouch
   #ifdef BLTOUCH
     #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
     #define Z_MIN_PROBE_REPEATABILITY_TEST
-    #define NOZZLE_TO_PROBE_OFFSET { -45, -0.7, 0 }   //Offset preset for this support : https://www.thingiverse.com/thing:4812496
-    //#define NOZZLE_TO_PROBE_OFFSET { 28, -33, 0 }       //Offset preset for this fanduct fot Direct Drive MOD : https://www.thingiverse.com/thing:3972011
+    #if ENABLED(E3DV6)
+      #define NOZZLE_TO_PROBE_OFFSET { 28, 8, 0 }   //Offset preset for this support : https://www.thingiverse.com/thing:4833314
+    #else
+      #define NOZZLE_TO_PROBE_OFFSET { 28, -33, 0 }       //Offset preset for this fanduct fot Direct Drive MOD : https://www.thingiverse.com/thing:3972011
+    #endif
+    
   #endif
 
 //#define ZMIN_SENSOR_AS_PROBE                      //uncomment to use Z min as Probe for bed leveling (incompatible with BLTouch)
@@ -195,7 +201,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "Molise 4.0" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "Twiggotronix" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -271,7 +277,7 @@
 
 // Name displayed in the LCD "Ready" message and Info menu
 #ifdef D12_230
-    #define CUSTOM_MACHINE_NAME "Wanhao D12-230"
+    #define CUSTOM_MACHINE_NAME "Robert"
   #endif
 #ifdef D12_300
     #define CUSTOM_MACHINE_NAME "Wanhao D12-300"
@@ -710,7 +716,11 @@
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  *
  */
-#define TEMP_SENSOR_0 1
+#if ENABLED(E3DV6)
+  #define TEMP_SENSOR_0 5
+#else
+  #define TEMP_SENSOR_0 0
+#endif
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
@@ -841,9 +851,9 @@
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    #define DEFAULT_Kp  27.35
-    #define DEFAULT_Ki   1.71
-    #define DEFAULT_Kd 109.14
+    #define DEFAULT_Kp 34.5534
+    #define DEFAULT_Ki 3.3482
+    #define DEFAULT_Kd 89.1479
   #endif
 #endif
 
@@ -926,9 +936,9 @@
 
   // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 10.00
-  #define DEFAULT_bedKi .023
-  #define DEFAULT_bedKd 305.4
+  #define DEFAULT_bedKp 93.1559
+  #define DEFAULT_bedKi 17.6432
+  #define DEFAULT_bedKd 327.9088
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
@@ -1359,10 +1369,10 @@
   #ifdef DDRIVE
   #define eSteps 442   //STOCK
     #else
-    #define eSteps 406.54   //STOCK
+    #define eSteps 405.96   //STOCK
   #endif
 #endif
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 404, eSteps }
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 81.01, 81.01, 400.5, eSteps }
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
