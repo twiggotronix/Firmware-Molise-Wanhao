@@ -126,7 +126,7 @@
   #ifdef BLTOUCH
     #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
     #define Z_MIN_PROBE_REPEATABILITY_TEST
-    #if ENABLED(E3DV6)
+    #ifdef E3DV6
       #define NOZZLE_TO_PROBE_OFFSET { 28, 8, 0 }   //Offset preset for this support : https://www.thingiverse.com/thing:4833314
     #else
       #define NOZZLE_TO_PROBE_OFFSET { 28, -33, 0 }       //Offset preset for this fanduct fot Direct Drive MOD : https://www.thingiverse.com/thing:3972011
